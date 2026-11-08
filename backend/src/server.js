@@ -50,7 +50,14 @@ app.use((error, _req, res, _next) => {
 });
 
 const port = Number(process.env.PORT || 5000);
-connectDB().then(() => app.listen(port, () => console.log(`UniRide API listening at http://localhost:${port}`))).catch((error) => {
-  console.error('Database connection failed:', error.message);
-  process.exit(1);
-});
+
+connectDB()
+  .then(() => {
+    app.listen(port, '0.0.0.0', () => {
+      console.log(`UniRide API listening on port ${port}`);
+    });
+  })
+  .catch((error) => {
+    console.error('Database connection failed:', error.message);
+    process.exit(1);
+  });
